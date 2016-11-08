@@ -1,9 +1,6 @@
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.mllib.recommendation.ALS
-// $example off$
-import org.apache.spark.mllib.recommendation.ALS
 import org.apache.spark.mllib.recommendation.Rating
-import org.apache.spark.sql.SparkSession
 object ALSExample {
   def main(args: Array[String]) {
 

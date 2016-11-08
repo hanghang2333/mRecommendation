@@ -59,7 +59,15 @@
                         </classesDirectory>
                     </configuration>
                 </plugin>
-            </plugins>
+                    <plugin>
+                        <!--用来编译scala的-->
+                        <groupId>net.alchim31.maven</groupId>
+                        <artifactId>
+                            scala-maven-plugin</artifactId>
+                        <version>3.1.5</version>
+                    </plugin>
+                </plugins>
+
         </pluginManagement>
     </build>
 </project>
