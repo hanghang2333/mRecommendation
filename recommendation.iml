@@ -12,6 +12,15 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="scala-sdk-2.10.6" level="application" />
+    <orderEntry type="module-library">
+      <library name="Maven: org.jblas:jblas:1.2.4">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/org/jblas/1.2.4/jblas-1.2.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: org.apache.spark:spark-core_2.10:2.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.avro:avro-mapred:hadoop2:1.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.apache.avro:avro-ipc:1.7.7" level="project" />
@@ -181,7 +190,6 @@
     <orderEntry type="library" name="Maven: org.jpmml:pmml-model:1.2.15" level="project" />
     <orderEntry type="library" name="Maven: org.jpmml:pmml-schema:1.2.15" level="project" />
     <orderEntry type="library" name="Maven: org.apache.spark:spark-graphx_2.10:1.1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.jblas:jblas:1.2.3" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-server:8.1.14.v20131031" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-continuation:8.1.14.v20131031" level="project" />
@@ -189,5 +197,6 @@
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-io:8.1.14.v20131031" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-util:8.1.14.v20131031" level="project" />
     <orderEntry type="library" name="Maven: org.apache.spark:spark-streaming_2.10:2.0.0" level="project" />
+    <orderEntry type="library" name="jblas-1.2.4" level="project" />
   </component>
 </module>
