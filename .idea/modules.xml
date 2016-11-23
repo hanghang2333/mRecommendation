@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/recommendation.iml" filepath="$PROJECT_DIR$/recommendation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/word2vec/word2vec.iml" filepath="$PROJECT_DIR$/word2vec/word2vec.iml" />
     </modules>
   </component>
 </project>

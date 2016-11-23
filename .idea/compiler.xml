@@ -23,10 +23,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="recommendation" />
+        <module name="word2vec" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="recommendation" target="1.5" />
+      <module name="word2vec" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -12,7 +12,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="scala-sdk-2.10.6" level="application" />
-    <orderEntry type="library" name="jblas-1.2.4" level="project" />
     <orderEntry type="library" name="Maven: com.huaban:jieba-analysis:1.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.nlpcn:nlp-lang:1.7.1" level="project" />
@@ -20,7 +19,7 @@
     <orderEntry type="module-library">
       <library name="Maven: org.jblas:jblas:1.2.4">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/org/jblas/1.2.4/jblas-1.2.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/org/jblas/1.2.4/jblas-1.2.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
