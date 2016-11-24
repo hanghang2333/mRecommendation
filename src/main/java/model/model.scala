@@ -3,10 +3,11 @@ import org.apache.spark.mllib.linalg.{SparseVector => SV}
 import breeze.numerics.pow
 import doctor.doctorData
 import org.apache.spark.{SparkConf, SparkContext}
-import pre.extract.OrderFile
+import pre.extract.{FeedbackFile, OrderFile}
 import pre.sen2vec.{segment, word2vec}
 import org.apache.spark.mllib.feature.{HashingTF, IDF}
 import org.apache.spark.rdd.RDD
+import org.apache.spark.mllib.recommendation.Rating
 
 import scala.collection.mutable.ArrayBuffer
 object model {
@@ -53,7 +54,7 @@ object model {
     /*下面是示例，输入一个seq，得出对应的相似的订单编号组*/
     /*val test1=textSeqData.filter{case (key,value)=>key=="O2015092109071344861"}.first()._2.toSeq
     getsim(test1).sortByKey(false).take(20).foreach(println)*/
-    /*导入训练好的word2vec模型*/
+    /*导入训练好的word2vec模型,这一部分目前没有想到好的利用办法*/
     val wordvec=new word2vec(sc)
     val model=wordvec.Model
     /*负责将一个List[String]转化为List[List[Float]]*/
@@ -73,9 +74,58 @@ object model {
     val textlistDataVec=textlistData.mapValues(getvec)
     //到这里rdd的内容为:订单ID->List[List[Float]],List[Float]为每个词的词向量
     // textlistDataVec.take(10).foreach(println)
+    /*创建doctor对象，获取doctor数据*/
     val dc=new doctorData(sc)
     val dcData=dc.getdata()
-    println(dcData.first())
+    val dcListProSData = dcData.map(list => (list(0) -> List(list(1), list(2), list(3),list(4),list(5),list(6)))).
+      mapValues(list => list(0) + " " + list(1) + " " + list(2)+" "+ list(3)+" "+list(4)+" "+list(5)).
+      mapValues(seg.getwordlist)
+    println(dcListProSData.first())
+    /*创建feedback对象，获取feedback数据*/
+    val fb=new FeedbackFile(sc)
+    val fbData=fb.getdata()
+    val fbData1=fbData.map(list=>List(list(2),list(0),list(3))).filter(list=>(list(0)!="NULL"&&list(1)!="NULL"&&list(2)!="NULL")).
+      map(list=>(list(0),(list(1),list(2))))//订单号，用户，评分
+    //fbData1.take(10).foreach(println)
+    val orderex=orderData.map(list=>List(list(0),list(6))).filter(list=>(list(0)!="NULL"&&list(1)!="NULL")).
+      map(list=>(list(0),list(1)))//订单号，专家
+    val ratData=fbData1.join(orderex)
+    val ratingDataTemp=ratData.map{
+      case (key:String,ur:((String,String),String))=>{
+        (ur._1._1,ur._2,ur._1._2)
+      }
+    }
+    ratingDataTemp.take(10).foreach(println)
+    val doctorid=dc.getid().map{
+      case (s,i)=>
+        (s,i)}.collect().toMap
+
+    val ratingDataTemp2=ratingDataTemp.map{
+      case (x1,x2,x3)=> x3 match{
+        case "3"=>(doctorid.get(x1),doctorid.get(x2),5)
+        case "4"=>(doctorid.get(x1),doctorid.get(x2),4)
+        case "5"=>(doctorid.get(x1),doctorid.get(x2),3)
+        case "6"=>(doctorid.get(x1),doctorid.get(x2),2)
+        case "7"=>(doctorid.get(x1),doctorid.get(x2),1)
+      }
+    }
+    val ratingData=ratingDataTemp2.filter{
+      case(x1,x2,x3)=>{
+        x1!=None&&x2!=None
+      }
+    }.map{
+      case(Some(x1),Some(x2),x3)=> {
+        (x1,x2,x3)
+      }
+    }
+    val ratings=ratingData.map{
+      case(user,expert,rate)=>
+      //  Rating(user.toInt,expert.toInt,rate.toDouble)
+    }
+
+    println(ratingData.count())
+    ratingData.take(10).foreach(println)
+
     /*这段代码是每两个文档的相似度
     val docSims = key_idf_pairs.flatMap {
       case (id1, idf1) =>
