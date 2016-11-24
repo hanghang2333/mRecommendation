@@ -50,10 +50,10 @@ object model {
     }
     */
     /*
-    /*导入训练好的word2vec模型,这一部分目前没有想到好的利用办法*/
+    //导入训练好的word2vec模型,这一部分目前没有想到好的利用办法
     val wordvec=new word2vec(sc)
     val model=wordvec.Model
-    /*负责将一个List[String]转化为List[List[Float]]*/
+    //负责将一个List[String]转化为List[List[Float]]
     def getvec(str:List[String]):List[List[Float]]= {
       val ab = new ArrayBuffer[List[Float]]()
       for (s <- str) {
@@ -88,7 +88,7 @@ object model {
     println(cfmodel.predict(11033,6481));println(cfmodel.recommendProducts(3874,3).mkString("\n"));println("/*这是CF处理后的示例输出*/");
 
     /*
-    /*创建doctor对象，获取doctor数据*/
+    //创建doctor对象，获取doctor数据
     val dc=new doctorData(sc)
     val dcData=dc.getdata()
     val dcListProSData = dcData.map(list => (list(0) -> List(list(1), list(2), list(3),list(4),list(5),list(6)))).
@@ -97,7 +97,7 @@ object model {
     println(dcListProSData.first())
      */
     /*这一部分是之前写的CF的部分，现在已经将之放在单独文件里了
-    /*创建feedback对象，获取feedback数据*/
+    //创建feedback对象，获取feedback数据
     val fb=new FeedbackFile(sc)
     val fbData=fb.getdata()
     val fbData1=fbData.map(list=>List(list(2),list(0),list(3))).filter(list=>(list(0)!="NULL"&&list(1)!="NULL"&&list(2)!="NULL")).
