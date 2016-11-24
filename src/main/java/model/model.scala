@@ -1,13 +1,10 @@
 package model
-import org.apache.spark.mllib.linalg.{SparseVector => SV}
-import breeze.numerics.pow
-import doctor.doctorData
 import org.apache.spark.{SparkConf, SparkContext}
 import pre.extract.{FeedbackFile, OrderFile}
 import pre.sen2vec.{segment, word2vec}
 import org.apache.spark.mllib.feature.{HashingTF, IDF}
 import org.apache.spark.rdd.RDD
-import org.apache.spark.mllib.recommendation.Rating
+import org.apache.spark.mllib.recommendation.{ALS, Rating}
 
 import scala.collection.mutable.ArrayBuffer
 object model {
@@ -19,12 +16,12 @@ object model {
     val textData=orderData.map(list=>List(list(0),list(2),list(4),list(5)))//订单编号,会诊目的,诊断描述,疾病方向
     /*导入分词类*/
     val seg=new segment()
-    val textlistData=textData.map(list=>(list(0)->List(list(1),list(2),list(3)))).
+    val textlistData=textData.map(list=>(list(0),List(list(1),list(2),list(3)))).
       mapValues(list=>list(0)+" "+list(1)+" "+list(2)).
       mapValues(seg.getwordlist)
     //到这里rdd里存储的内容为 订单编号+List[String]
+    /*下面是IFTDF的部分
     //下面是开始训练IFTDF的过程
-    val textSeqData=textlistData.mapValues(list=>list.toSeq)
     val hashingTF = new HashingTF(pow(2,18).toInt)
     val key_tf_pairs = textSeqData.map {
       case (key,text) =>
@@ -34,7 +31,7 @@ object model {
     val idf = new IDF().fit(key_tf_pairs.values) //将tf向量转换成tf-idf向量
     val key_idf_pairs = key_tf_pairs.mapValues(v =>idf.transform(v)) //广播一份tf-idf向量集
     val b_key_idf_pairs = sc.broadcast(key_idf_pairs.collect()) //计算doc之间余弦相似度
-    def getsim(seqtext:Seq[String]):RDD[(Double,String)]={
+    def getsim1(seqtext:Seq[String]):RDD[(Double,String)]={
       val tftest=hashingTF.transform(seqtext)
       val idftest=idf.transform(tftest)
       val simtest={
@@ -51,9 +48,8 @@ object model {
       val simrdd=sc.parallelize(simtest)
       simrdd
     }
-    /*下面是示例，输入一个seq，得出对应的相似的订单编号组*/
-    /*val test1=textSeqData.filter{case (key,value)=>key=="O2015092109071344861"}.first()._2.toSeq
-    getsim(test1).sortByKey(false).take(20).foreach(println)*/
+    */
+    /*
     /*导入训练好的word2vec模型,这一部分目前没有想到好的利用办法*/
     val wordvec=new word2vec(sc)
     val model=wordvec.Model
@@ -71,9 +67,27 @@ object model {
       }
       ab.toList
     }
-    val textlistDataVec=textlistData.mapValues(getvec)
+     val textlistDataVec=textlistData.mapValues(getvec)
+    */
+    /*Word2Vec模型*/
+    val w2vmodel=new W2Vmodel(sc)
+    val w2vres=w2vmodel.getwordvec(textlistData)
     //到这里rdd的内容为:订单ID->List[List[Float]],List[Float]为每个词的词向量
-    // textlistDataVec.take(10).foreach(println)
+    w2vres.take(7).foreach(println);println("/*这是word2vec处理后的示例输出*/")
+    /*IFTDF模型*/
+    val idfmodel=new IDFmodel(sc)
+    /*下面是示例，输入一个seq，得出对应的相似的订单编号组*/
+    val textSeqData=textlistData.mapValues(list=>list.toSeq)
+    val test1=textSeqData.filter{case (key,value)=>key=="O2015092109071344861"}.first()._2.toSeq
+    idfmodel.getsim(test1).sortByKey(false).take(4).foreach(println);println("/*这是iftdf处理后的示例输出*/");
+    /*协同过滤*/
+    val cfdata=new CFmodel(sc).getrating()
+    val ratings=cfdata._1
+    val doctorid=cfdata._2
+    val cfmodel=ALS.train(ratings,100,10,0.01)
+    println(cfmodel.predict(11033,6481));println(cfmodel.recommendProducts(3874,3).mkString("\n"));println("/*这是CF处理后的示例输出*/");
+
+    /*
     /*创建doctor对象，获取doctor数据*/
     val dc=new doctorData(sc)
     val dcData=dc.getdata()
@@ -81,6 +95,8 @@ object model {
       mapValues(list => list(0) + " " + list(1) + " " + list(2)+" "+ list(3)+" "+list(4)+" "+list(5)).
       mapValues(seg.getwordlist)
     println(dcListProSData.first())
+     */
+    /*这一部分是之前写的CF的部分，现在已经将之放在单独文件里了
     /*创建feedback对象，获取feedback数据*/
     val fb=new FeedbackFile(sc)
     val fbData=fb.getdata()
@@ -120,12 +136,9 @@ object model {
     }
     val ratings=ratingData.map{
       case(user,expert,rate)=>
-      //  Rating(user.toInt,expert.toInt,rate.toDouble)
+        Rating(user,expert,rate.toDouble)
     }
-
-    println(ratingData.count())
-    ratingData.take(10).foreach(println)
-
+    */
     /*这段代码是每两个文档的相似度
     val docSims = key_idf_pairs.flatMap {
       case (id1, idf1) =>
