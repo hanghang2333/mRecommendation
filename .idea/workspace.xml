@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ed340a2c-3f92-466d-9318-431e6d38860c" name="Default" comment="在之前基础上增加了一个极其粗陋的CF过程，不过代码有点乱，在重新组织之前commit一下。">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/model/CFmodel.scala" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/model/IDFmodel.scala" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/model/W2Vmodel.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/recommendation-1.0-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/target/recommendation-1.0-SNAPSHOT.jar" />
+    <list default="true" id="ed340a2c-3f92-466d-9318-431e6d38860c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/model.scala" afterPath="$PROJECT_DIR$/src/main/java/model/model.scala" />
     </list>
     <ignored path="recommendation.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -58,17 +53,17 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/model/model.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="165">
-              <caret line="88" column="4" selection-start-line="88" selection-start-column="4" selection-end-line="88" selection-end-column="4" />
+              <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
               <folding>
                 <element signature="e#1019#2224#0" expanded="false" />
                 <element signature="e#2229#2746#0" expanded="false" />
-                <element signature="e#3618#4003#0" expanded="false" />
-                <element signature="e#4008#5491#0" expanded="false" />
-                <element signature="e#5496#6105#0" expanded="false" />
-                <element signature="e#6110#7028#0" expanded="false" />
-                <element signature="e#7034#8782#0" expanded="false" />
-                <element signature="e#8787#9020#0" expanded="false" />
-                <element signature="e#9025#9072#0" expanded="false" />
+                <element signature="e#3614#3999#0" expanded="false" />
+                <element signature="e#4004#5487#0" expanded="false" />
+                <element signature="e#5492#6101#0" expanded="false" />
+                <element signature="e#6106#7024#0" expanded="false" />
+                <element signature="e#7030#8778#0" expanded="false" />
+                <element signature="e#8783#9016#0" expanded="false" />
+                <element signature="e#9021#9068#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -1004,7 +999,14 @@
       <option name="project" value="LOCAL" />
       <updated>1479983889522</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="重新整理了一下代码，其中在结构上仍有需要修改(处理效率)的地方，不过出于模块化的考虑暂时不修改先。">
+      <created>1479989527330</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1479989527330</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1062,7 +1064,8 @@
     <MESSAGE value="增加了一些东西，评估的过程。其中还有一个jblas的jar包，目前是本地引用的。" />
     <MESSAGE value="实现了从csv表里抽取一部分数据，分词，word2vec向量，tfidf等" />
     <MESSAGE value="在之前基础上增加了一个极其粗陋的CF过程，不过代码有点乱，在重新组织之前commit一下。" />
-    <option name="LAST_COMMIT_MESSAGE" value="在之前基础上增加了一个极其粗陋的CF过程，不过代码有点乱，在重新组织之前commit一下。" />
+    <MESSAGE value="重新整理了一下代码，其中在结构上仍有需要修改(处理效率)的地方，不过出于模块化的考虑暂时不修改先。" />
+    <option name="LAST_COMMIT_MESSAGE" value="重新整理了一下代码，其中在结构上仍有需要修改(处理效率)的地方，不过出于模块化的考虑暂时不修改先。" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1387,17 +1390,17 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/model/model.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
-          <caret line="88" column="4" selection-start-line="88" selection-start-column="4" selection-end-line="88" selection-end-column="4" />
+          <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
           <folding>
             <element signature="e#1019#2224#0" expanded="false" />
             <element signature="e#2229#2746#0" expanded="false" />
-            <element signature="e#3618#4003#0" expanded="false" />
-            <element signature="e#4008#5491#0" expanded="false" />
-            <element signature="e#5496#6105#0" expanded="false" />
-            <element signature="e#6110#7028#0" expanded="false" />
-            <element signature="e#7034#8782#0" expanded="false" />
-            <element signature="e#8787#9020#0" expanded="false" />
-            <element signature="e#9025#9072#0" expanded="false" />
+            <element signature="e#3614#3999#0" expanded="false" />
+            <element signature="e#4004#5487#0" expanded="false" />
+            <element signature="e#5492#6101#0" expanded="false" />
+            <element signature="e#6106#7024#0" expanded="false" />
+            <element signature="e#7030#8778#0" expanded="false" />
+            <element signature="e#8783#9016#0" expanded="false" />
+            <element signature="e#9021#9068#0" expanded="false" />
           </folding>
         </state>
       </provider>
